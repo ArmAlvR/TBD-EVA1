@@ -1,0 +1,138 @@
+MySQL Shell 8.0.43
+
+Copyright (c) 2016, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \connect -mc root@localhost
+WARNING: The -mc option was deprecated, please use --mc instead. (Option has been processed as --mc).
+Creating a Classic session to 'root@localhost'
+Fetching schema names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  JS > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Fetching schema names for auto-completion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 13
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  JS > use tbd1;
+Expected ; but found tbd1 (SyntaxError)
+ MySQL  localhost:3306 ssl  JS > use tbd1
+Expected ; but found tbd1 (SyntaxError)
+ MySQL  localhost:3306 ssl  JS > \sql
+Switching to SQL mode... Commands end with ;
+Fetching global names for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  SQL > use tbd1;
+Default schema set to `tbd1`.
+Fetching global names, object names from `tbd1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int auto_increment key not null, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP"));
+Query OK, 0 rows affected (0.2262 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > desc curso;
++---------+----------------------------------------+------+-----+---------+----------------+
+| Field   | Type                                   | Null | Key | Default | Extra          |
++---------+----------------------------------------+------+-----+---------+----------------+
+| Roll_no | int                                    | NO   | PRI | NULL    | auto_increment |
+| Name    | varchar(50)                            | NO   |     | NULL    |                |
+| SUBJECT | enum('java','C++','ANDROID','C','PHP') | YES  |     | NULL    |                |
++---------+----------------------------------------+------+-----+---------+----------------+
+3 rows in set (0.0037 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop curso;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'curso' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop ctable urso;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ctable urso' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop table curso;
+Query OK, 0 rows affected (0.2427 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int auto_increment key not null, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP") not null);
+Query OK, 0 rows affected (1.1922 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > alter table curso modify drop Roll_no
+                                     -> ;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'drop Roll_no' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop table curso;
+Query OK, 0 rows affected (0.3096 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int auto_increment not null, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP") not null);
+ERROR: 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int not null, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP") not null);
+Query OK, 0 rows affected (0.1865 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop table curso;
+Query OK, 0 rows affected (0.2906 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int not null auto_increment, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP") not null);
+ERROR: 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table curso(Roll_no int not null, Name varchar(50) not null, SUBJECT enum("java", "C++", "ANDROID", "C", "PHP") not null);
+Query OK, 0 rows affected (1.3600 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into curso(Roll_no, Name, Subject) values("100", "prueba1",(1,2)), ("101", "prueba2"), (3,2));
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into curso(Roll_no, Name, Subject) values("101", "prueba1","Java"), ("101", "prueba1"), "Java");
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"Java")' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into curso(Roll_no, Name, Subject) values("101", "prueba1","Java"), ("101", "prueba1", "Java");
+Query OK, 2 rows affected (0.0438 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from curso;
++---------+---------+---------+
+| Roll_no | Name    | SUBJECT |
++---------+---------+---------+
+|     101 | prueba1 | java    |
+|     101 | prueba1 | java    |
++---------+---------+---------+
+2 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into curso(Roll_no, Name, Subject) values("100", "prueba2","Java"), ("100", "prueba2", "C++");
+Query OK, 2 rows affected (0.0908 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from curso;
++---------+---------+---------+
+| Roll_no | Name    | SUBJECT |
++---------+---------+---------+
+|     101 | prueba1 | java    |
+|     101 | prueba1 | java    |
+|     100 | prueba2 | java    |
+|     100 | prueba2 | C++     |
++---------+---------+---------+
+4 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > show tables;
++----------------+
+| Tables_in_tbd1 |
++----------------+
+| cliente        |
+| cliente_datos  |
+| curso          |
+| customer       |
+| docente        |
+| ficha          |
+| persona        |
+| playeras       |
+| student        |
++----------------+
+9 rows in set (0.0259 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID not null auto_increment key, Apellido varchar(50) not null,IDProf int not null, Prof varchar(50) not null, Grado int not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null auto_increment key, Apellido varchar(50) not null,IDProf int not null, ' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID not null auto_increment key, Apellido varchar(50) not null, IDProf int not null, Prof varchar(50) not null, Grado int not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null auto_increment key, Apellido varchar(50) not null, IDProf int not null,' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID auto_increment key not null, Apellido varchar(50) not null, IDProf int not null, Prof varchar(50) not null, Grado int not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increment key not null, Apellido varchar(50) not null, IDProf int not null,' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID auto_increment key not null, Apellido varchar(50) not null, IDProf int not null, Prof varchar(50) not null, Grado int not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increment key not null, Apellido varchar(50) not null, IDProf int not null,' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID auto_increment key not null, Apellido varchar(50) not null, IDProf int not null, Prof varchar(50) not null, Grado int not null);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'auto_increment key not null, Apellido varchar(50) not null, IDProf int not null,' at line 1
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID int auto_increment key not null, Apellido varchar(50) not null, IDProf int not null, Prof varchar(50) not null, Grado int not null);
+Query OK, 0 rows affected (0.3130 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > drop table estudiante;
+Query OK, 0 rows affected (0.1640 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table estudiante(ID int auto_increment key not null, Apellido varchar(50) not null, Grado int not null);
+Query OK, 0 rows affected (0.2812 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table profesor(IDProf int auto_increment not null key, Prof varchar(50) not null);
+Query OK, 0 rows affected (0.1872 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into estudiante(Apellido, Grado) values("Alvidrez", "2"), ("Pinto", "3");
+
+Query OK, 2 rows affected (0.0485 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into profesor(Prof) values("Hernandez"), ("Saldaña");
+Query OK, 2 rows affected (0.0446 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL >
